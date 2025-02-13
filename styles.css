@@ -51,4 +51,48 @@ body {
     color: yellow;
     font-size: 18px;
     flex-grow: 1;
+}
+.essay-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 0;
+}
+.essay-card {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
+    border: 2px solid red;
+    border-radius: 5px;
+    background-color: #222;
+    transition: transform 0.2s;
+}
+.essay-card:hover {
+    transform: translateX(10px);
+}
+.essay-thumbnail {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid red;
+}
+.essay-content {
+    flex: 1;
+    text-align: left;
+}
+.essay-content h2 {
+    margin: 0 0 10px 0;
+}
+.essay-content h2 a {
+    color: yellow;
+    text-decoration: none;
+}
+.essay-content h2 a:hover {
+    text-decoration: underline;
+}
+.essay-description {
+    color: #ccc;
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.4;
 } 
