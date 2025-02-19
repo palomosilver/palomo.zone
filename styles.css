@@ -95,4 +95,27 @@ body {
     margin: 0;
     font-size: 0.9em;
     line-height: 1.4;
+}
+.footer {
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 2px solid red;
+    text-align: right;
+}
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.social-link {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+.social-link:hover {
+    opacity: 1;
+}
+.social-icon {
+    width: 32px;
+    height: 32px;
+    filter: invert(1);  /* Makes black icons white */
 } 
