@@ -118,4 +118,92 @@ body {
     width: 32px;
     height: 32px;
     filter: invert(1);  /* Makes black icons white */
-} 
+}
+.films-container {
+    width: 95%;
+    margin: auto;
+    border: 5px solid red;
+    background-color: #111;
+    padding: 20px;
+}
+.films {
+    width: 100%;
+    border: 2px solid red;
+    margin-top: 20px;
+}
+.film {
+    display: grid;
+    grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr) minmax(auto, 1.5fr) minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1.5fr) minmax(auto, 1fr);
+    border-bottom: 1px solid red;
+}
+.film-row-header {
+    background-color: #111;
+    font-weight: bold;
+    color: yellow;
+    display: flex;
+    justify-content: space-between;
+}
+.cell {
+    padding: 10px;
+    border-right: 1px solid red;
+    overflow: visible;
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.native-title {
+    font-size: 0.8em;
+    color: yellow;
+    margin-top: 5px;
+}
+.cell:last-child {
+    border-right: none;
+}
+.notes-row {
+    background-color: #111;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 500px;
+}
+.notes-row.collapsed {
+    max-height: 0;
+    padding: 0;
+    border: none;
+}
+.notes {
+    padding: 10px 20px;
+    color: #888;
+    font-style: italic;
+    border-bottom: 1px solid red;
+}
+.notes-toggle {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 0.9em;
+    transition: transform 0.2s;
+    z-index: 1;
+}
+.notes-toggle:hover {
+    transform: scale(1.2);
+}
+/* Hover effects */
+.film:hover {
+    background-color: #222;
+}
