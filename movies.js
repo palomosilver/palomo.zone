@@ -69,19 +69,19 @@ function displayFilms(films) {
         filmRow.className = 'film';
         filmRow.innerHTML = `
             <div class="cell">
-                <div class="title-content">
-                    ${film.title}
-                    ${film.nativeTitle ? `<br><span class="native-title">${film.nativeTitle}</span>` : ''}
-                </div>
-                ${film.notes ? `<button class="notes-toggle">📝</button>` : ''}
+            <div class="title-content">
+                ${film.title}
+                ${film.nativeTitle ? `<br><span class="native-title">${film.nativeTitle}</span>` : ''}
+            </div>
+            ${film.notes ? `<button class="notes-toggle">📝</button>` : ''}
             </div>
             <div class="cell">${film.year}</div>
             <div class="cell">${film.director}</div>
             <div class="cell">${film.country}</div>
             <div class="cell">${film.language}</div>
             <div class="cell">${film.tags}</div>
-            <div class="cell">
-                ${film.liked}
+            <div class="cell"${film.liked === 'y' ? ' style="background-color: red;"' : ''}>
+            ${film.liked}
             </div>
         `;
         container.appendChild(filmRow);
