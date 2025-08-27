@@ -24,6 +24,9 @@ function getGoogleSheetsData() {
         // Remove the first two entries (header rows) from filmData
         filmData = filmData.slice(2);
         
+        if (filmData.length === 0) {
+            throw new Error('No film data found');
+        }
         displayFilms(filmData);
     })
     .catch(error => {
@@ -35,12 +38,11 @@ function getGoogleSheetsData() {
         backupSheet = document.createElement('div');
         backupSheet.className = 'backup-sheet';
         backupSheet.innerHTML = `
-            <p>looks like the sheet is down, here's a backup:</p>
+            <p>looks like the table is down, here's a backup:</p>
             <img src="https://media.tenor.com/42bcTn0iuVgAAAAj/under-construction-pikachu.gif" alt="Under Construction">
             <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cBSwuX_prFDiu1Kl20G2yYp1bNofKC5w-fAHld128ALE4fbtPbNQYcal7QlcvjwGeCgWzm7bjTSE/pubhtml" width="100%" height="500px"></iframe>
         `;
-        container.appendChild(backupSheet);
-    });
+        container.appendChild(backupSheet);    });
 }
 
 function displayFilms(films) {
