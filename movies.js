@@ -1,48 +1,56 @@
 function getGoogleSheetsData() {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cBSwuX_prFDiu1Kl20G2yYp1bNofKC5w-fAHld128ALE4fbtPbNQYcal7QlcvjwGeCgWzm7bjTSE/pubhtml")
-    .then(response => response.text())
-    .then(data => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'text/html');
-        const rows = doc.querySelectorAll('tr');
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cBSwuX_prFDiu1Kl20G2yYp1bNofKC5w-fAHld128ALE4fbtPbNQYcal7QlcvjwGeCgWzm7bjTSE/pub?output=csv")
+        .then(response => response.text())
+        .then(data => {
+            const lines = data.split('\n').filter(line => line.trim() !== '');
+            const dataLines = lines.slice(1); // Skip header line
 
-        filmData = Array.from(rows).map(row => {
-            const cells = row.querySelectorAll('td');
-            return {
-                title: cells[0]?.textContent?.trim() || '',
-                nativeTitle: cells[1]?.textContent?.trim() || '',
-                year: cells[2]?.textContent?.trim() || '',
-                director: cells[3]?.textContent?.trim() || '',
-                country: cells[4]?.textContent?.trim() || '',
-                language: cells[5]?.textContent?.trim() || '',
-                tags: cells[6]?.textContent?.trim() || '',
-                liked: cells[7]?.textContent?.trim() || '',
-                notes: cells[8]?.textContent?.trim() || '',
+            const filmData = dataLines.map(line => {
+                const cells = [];
+                let regex = /("([^"]|"")*"|[^,]*)(,|$)/g; // vibe code magic
+                let match;
+                while ((match = regex.exec(line)) !== null) {
+                    let cell = match[1];
+                    // Remove surrounding quotes and unescape double quotes
+                    if (cell.startsWith('"') && cell.endsWith('"')) {
+                        cell = cell.slice(1, -1).replace(/""/g, '"');
+                    }
+                    cells.push(cell.trim());
+                    if (match[3] === '') break; // End of line
+                }
+                console.log('Parsed cells:', cells);
+                return {
+                    title: cells[0] || '',
+                    nativeTitle: cells[1] || '',
+                    year: cells[2] || '',
+                    director: cells[3] || '',
+                    country: cells[4] || '',
+                    language: cells[5] || '',
+                    tags: cells[6] || '',
+                    liked: cells[7] || '',
+                    notes: cells[8] || '',
+                };
+            });
+
+            if (filmData.length === 0) {
+                throw new Error('No film data found');
             }
-        });
+            displayFilms(filmData);
+        })
+        .catch(error => {
+            console.error('Error fetching CSV:', error);
 
-        // Remove the first two entries (header rows) from filmData
-        filmData = filmData.slice(2);
-        
-        if (filmData.length === 0) {
-            throw new Error('No film data found');
-        }
-        displayFilms(filmData);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        
-        // display the sheet directly in an iframe on error
-        // not working rn, need to fix
-        const container = document.getElementById('films');
-        backupSheet = document.createElement('div');
-        backupSheet.className = 'backup-sheet';
-        backupSheet.innerHTML = `
-            <p>looks like the table is down, here's a backup:</p>
-            <img src="https://media.tenor.com/42bcTn0iuVgAAAAj/under-construction-pikachu.gif" alt="Under Construction">
-            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cBSwuX_prFDiu1Kl20G2yYp1bNofKC5w-fAHld128ALE4fbtPbNQYcal7QlcvjwGeCgWzm7bjTSE/pubhtml" width="100%" height="500px"></iframe>
-        `;
-        container.appendChild(backupSheet);    });
+            // fallback: show iframe
+            const container = document.getElementById('films');
+            const backupSheet = document.createElement('div');
+            backupSheet.className = 'backup-sheet';
+            backupSheet.innerHTML = `
+                <p>looks like the table is down, here's a backup:</p>
+                <img src="https://media.tenor.com/42bcTn0iuVgAAAAj/under-construction-pikachu.gif" alt="Under Construction">
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cBSwuX_prFDiu1Kl20G2yYp1bNofKC5w-fAHld128ALE4fbtPbNQYcal7QlcvjwGeCgWzm7bjTSE/pubhtml" width="100%" height="500px"></iframe>
+            `;
+            container.appendChild(backupSheet);
+        });
 }
 
 function displayFilms(films) {
