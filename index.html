@@ -9,10 +9,10 @@
     <div class="header-container">
         <marquee class="marquee">WELCOME TO THE PALOMOZONE - ENTER IF YOU DARE</marquee>
         <div class="navbar">
-            <a href="index.html">home</a>
-            <a href="about.html">about</a>
-            <a href="essays.html">essays</a>
-            <a href="animals.html">animals</a>
+            <a class="navbar-btn", href="index.html">home</a>
+            <a class="navbar-btn", href="about.html">about</a>
+            <a class="navbar-btn", href="essays.html">essays</a>
+            <a class="navbar-btn", href="animals.html">animals</a>
 
             <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate with PayPal button" style="margin-left: 10px; vertical-align: middle; height: 41px; padding: 0; border: none;">
         </div>
@@ -26,7 +26,13 @@
         <p class="counter">Visitor Count (LIVE): <b>7 kinozillion</b></p>
 
         <div class="films-container">
-            <h1>Horror Movie List</h1>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="margin: 0;">Horror Movie List</h1>
+                <div class="sort-filter-panel" style="margin-left: 20px;">
+                    <a href="#" id="sort-title" class="navbar-btn">Sort by Title <span id="arrow-title">▲</span></a>
+                    <a href="#" id="sort-year" class="navbar-btn">Sort by Year <span id="arrow-year">▲</span></a>
+                </div>
+            </div>
             
             <div class="films" id="films">
                 <!-- Films will be added here -->
