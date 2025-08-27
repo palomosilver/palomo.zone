@@ -53,8 +53,16 @@ function getGoogleSheetsData() {
         });
 }
 
+let filmsCache = [];
+let sortState = {
+    title: 'asc',
+    year: 'asc'
+};
+
 function displayFilms(films) {
+    filmsCache = films;
     const container = document.getElementById('films');
+    container.innerHTML = '';
 
     films.forEach(film => {
         const filmRow = document.createElement('div');
@@ -80,10 +88,8 @@ function displayFilms(films) {
 
         if (film.notes) {
             const notesRow = document.createElement('div');
-            notesRow.className = 'notes-row';  // Start uncollapsed
-            notesRow.innerHTML = `
-                <div class="notes">${film.notes}</div>
-            `;
+            notesRow.className = 'notes-row';
+            notesRow.innerHTML = `<div class="notes">${film.notes}</div>`;
             container.appendChild(notesRow);
 
             const toggleButton = filmRow.querySelector('.notes-toggle');
@@ -94,3 +100,40 @@ function displayFilms(films) {
         }
     });
 }
+
+function updateArrows() {
+    document.getElementById('arrow-title').textContent = sortState.title === 'asc' ? '▲' : '▼';
+    document.getElementById('arrow-year').textContent = sortState.year === 'asc' ? '▲' : '▼';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('sort-title').addEventListener('click', function(e) {
+        e.preventDefault();
+        sortState.title = sortState.title === 'asc' ? 'desc' : 'asc';
+        const sorted = [...filmsCache].sort((a, b) => {
+            if (sortState.title === 'asc') {
+                return a.title.localeCompare(b.title);
+            } else {
+                return b.title.localeCompare(a.title);
+            }
+        });
+        displayFilms(sorted);
+        updateArrows();
+    });
+
+    document.getElementById('sort-year').addEventListener('click', function(e) {
+        e.preventDefault();
+        sortState.year = sortState.year === 'asc' ? 'desc' : 'asc';
+        const sorted = [...filmsCache].sort((a, b) => {
+            if (sortState.year === 'asc') {
+                return (parseInt(a.year) || 0) - (parseInt(b.year) || 0);
+            } else {
+                return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+            }
+        });
+        displayFilms(sorted);
+        updateArrows();
+    });
+
+    updateArrows();
+});
